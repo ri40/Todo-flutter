@@ -28,9 +28,15 @@ class _TasksScreenState extends State<TasksScreen> {
             context: context,
             builder: (context) => SingleChildScrollView(
               child: Container(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: AddTaskScreen()),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: AddTaskScreen((newTaskTitle) {
+                  setState(() {
+                    tasks.add(Task(name: newTaskTitle));
+                    Navigator.pop(context);
+                  });
+                }),
+              ),
             ),
           );
         },
@@ -69,7 +75,7 @@ class _TasksScreenState extends State<TasksScreen> {
               ],
             ),
             Text(
-              '4 Tasks',
+              '${tasks.length} Tasks',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,

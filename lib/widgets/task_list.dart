@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class TaskTile extends StatelessWidget {
-
   final bool isChecked;
   final String taskTitle;
-  final void Function(bool?)checkboxChange;
+  final void Function(bool?) checkboxChange;
 
-
-  TaskTile({required this.isChecked, required this.taskTitle, required this.checkboxChange});
+  TaskTile(
+      {required this.isChecked,
+      required this.taskTitle,
+      required this.checkboxChange});
 
   @override
   Widget build(BuildContext context) {

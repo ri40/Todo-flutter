@@ -4,6 +4,7 @@ import '../models/task.dart';
 
 class TaskList extends StatefulWidget {
   final List<Task> tasks;
+
   TaskList(this.tasks);
 
   @override
@@ -11,7 +12,6 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
