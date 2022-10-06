@@ -1,41 +1,27 @@
 import 'package:flutter/material.dart';
 
-class TaskTile extends StatefulWidget {
-  @override
-  State<TaskTile> createState() => _TaskTileState();
-}
+class TaskTile extends StatelessWidget {
 
-class _TaskTileState extends State<TaskTile> {
-  bool isChecked = false;
+  final bool isChecked;
+  final String taskTitle;
+  final void Function(bool?)checkboxChange;
+
+
+  TaskTile({required this.isChecked, required this.taskTitle, required this.checkboxChange});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        'go gem',
+        taskTitle,
         style: TextStyle(
             decoration: isChecked ? TextDecoration.lineThrough : null),
       ),
-      trailing: TaskCheckbox(isChecked),
-    );
-  }
-}
-
-class TaskCheckbox extends StatelessWidget {
-  final bool? checkboxState;
-
-  TaskCheckbox(this.checkboxState);
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      activeColor: Colors.orangeAccent,
-      value: checkboxState,
-      onChanged: (newValue) {
-        // setState((){
-        //   isChecked = newValue;
-        // });
-      },
+      trailing: Checkbox(
+        activeColor: Colors.orangeAccent,
+        value: isChecked,
+        onChanged: checkboxChange,
+      ),
     );
   }
 }
