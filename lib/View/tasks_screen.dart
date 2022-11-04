@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:todo/models/task_data.dart';
-import 'package:todo/screens/add_task_screen.dart';
-import '../widgets/tasks_list.dart';
-import 'package:provider/provider.dart';
+import 'package:todo/Controller/task_data.dart';
+import 'package:todo/View/add_task_screen.dart';
+import 'package:get/get.dart';
 
 class TasksScreen extends StatelessWidget {
   @override
+  var todoCController = Get.put(TaskData());
+
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -15,17 +16,10 @@ class TasksScreen extends StatelessWidget {
             isScrollControlled: true,
             context: context,
             builder: (context) => SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen((newTaskTitle) {
-                  // setState(() {
-                  //   tasks.add(Task(name: newTaskTitle));
-                  //   Navigator.pop(context);
-                  // });
-                }),
-              ),
-            ),
+                child: Container(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: AddTaskScreen((newTaskTitle) {}))),
           );
         },
         backgroundColor: Colors.black,
@@ -62,13 +56,15 @@ class TasksScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Text(
-              '${Provider.of<TaskData>(context).tasks.length} Tasks',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
-            ),
+            Obx(() {
+              return Text(
+                '${todoCController.tasks.length} Tasks',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              );
+            }),
             SizedBox(height: 20),
             Expanded(
               child: Container(
@@ -78,9 +74,29 @@ class TasksScreen extends StatelessWidget {
                     Radius.circular(20),
                   ),
                 ),
-                child: TaskList(),
+                child: Obx(
+                  () {
+                    return ListView.builder(
+                        itemCount: todoCController.tasks.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            margin: EdgeInsets.all(10),
+                            child: ListTile(
+                              title: Text('${todoCController.tasks[index]}'),
+                              leading: Icon(Icons.check_box_outline_blank),
+                              trailing: IconButton(
+                                onPressed: () {
+                                  todoCController.deletitem(index);
+                                },
+                                icon: Icon(Icons.delete),
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
