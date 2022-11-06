@@ -25,7 +25,7 @@ class TasksScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         child: Icon(Icons.add),
       ),
-      backgroundColor: Colors.deepOrangeAccent[700],
+      backgroundColor: Color.fromARGB(255, 167, 154, 179),
       body: Container(
         padding: const EdgeInsets.only(
           top: 60,
@@ -47,7 +47,7 @@ class TasksScreen extends StatelessWidget {
                   width: 20,
                 ),
                 Text(
-                  'TODO',
+                  'TO DO',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 40,
@@ -83,7 +83,14 @@ class TasksScreen extends StatelessWidget {
                             margin: EdgeInsets.all(10),
                             child: ListTile(
                               title: Text('${todoCController.tasks[index]}'),
-                              leading: Icon(Icons.check_box_outline_blank),
+                              leading: Checkbox(
+                                value: todoCController.isChecked[index],
+                                onChanged: (value) {
+                                  todoCController.isChecked[index] = value!;
+                                  todoCController.tasks[index] =
+                                      todoCController.tasks[index];
+                                },
+                              ),
                               trailing: IconButton(
                                 onPressed: () {
                                   todoCController.deletitem(index);
